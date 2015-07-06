@@ -101,7 +101,8 @@
         autoMatch: '@',
         focusOut: '&',
         focusIn: '&',
-        inputName: '@'
+        inputName: '@',
+        maxResults: '='
       },
       templateUrl: function(element, attrs) {
         return attrs.templateUrl || TEMPLATE_URL;
@@ -559,10 +560,16 @@
         function processResults(responseData, str) {
           var i, description, image, text, formattedText, formattedDesc;
 
+
           if (responseData && responseData.length > 0) {
             scope.results = [];
+            var maxResults = responseData.length;
 
-            for (i = 0; i < responseData.length; i++) {
+            if(scope.maxResults && scope.maxResults < responseData.length){
+              maxResults = scope.maxResults;
+            }
+
+            for (i = 0; i < maxResults; i++) {
               if (scope.titleField && scope.titleField !== '') {
                 text = formattedText = extractTitle(responseData[i]);
               }else{
