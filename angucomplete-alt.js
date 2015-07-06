@@ -565,6 +565,8 @@
             for (i = 0; i < responseData.length; i++) {
               if (scope.titleField && scope.titleField !== '') {
                 text = formattedText = extractTitle(responseData[i]);
+              }else{
+                text = formattedText = responseData[i];
               }
 
               description = '';
