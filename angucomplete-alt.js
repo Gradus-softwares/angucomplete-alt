@@ -622,6 +622,7 @@
         }
 
         scope.onFocusHandler = function() {
+          scope.hasSelected = false;
           if (scope.focusIn) {
             scope.focusIn();
           }
@@ -633,8 +634,7 @@
 
         scope.hideResults = function(event) {
           if (mousedownOn &&
-              (mousedownOn === scope.id + '_dropdown' ||
-               mousedownOn.indexOf('angucomplete') >= 0)) {
+              (mousedownOn === scope.id + '_dropdown')) {
             mousedownOn = null;
           }
           else {
@@ -657,7 +657,11 @@
                 handleOverrideSuggestions();
               }
             }
+            if(!scope.hasSelected){
+              scope.searchStr = null;
+            }
           }
+
         };
 
         scope.resetHideResults = function() {
@@ -672,6 +676,7 @@
 
         scope.selectResult = function(result) {
           // Restore original values
+          scope.hasSelected = true;
           if (scope.matchClass) {
             result.title = extractTitle(result.originalObject);
             result.description = extractValue(result.originalObject, scope.descriptionField);
