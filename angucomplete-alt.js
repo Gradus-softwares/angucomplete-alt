@@ -164,6 +164,13 @@
           }
         });
 
+        scope.$on('angucomplete-alt:changeInput', function (event, data) {
+          if (data.id == scope.id) {
+            scope.searchStr = extractTitle(data.value);
+            callOrAssign({originalObject: data.value});
+          }
+        });
+
         // #194 dropdown list not consistent in collapsing (bug).
         function clickoutHandlerForDropdown(event) {
           mousedownOn = null;
