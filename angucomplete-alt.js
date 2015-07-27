@@ -167,7 +167,6 @@
         scope.$on('angucomplete-alt:changeInput', function (event, data) {
           if (data.id == scope.id) {
             scope.searchStr = extractTitle(data.value);
-            callOrAssign({originalObject: data.value});
             handleRequired(false);
             clearResults();
           }
