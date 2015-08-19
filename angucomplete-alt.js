@@ -133,6 +133,7 @@
           }
         });
 
+        scope.lastValid = scope.initialValue;
         scope.currentIndex = null;
         scope.searching = false;
         unbindInitialValue = scope.$watch('initialValue', function(newval, oldval) {
@@ -641,11 +642,9 @@
         };
 
         scope.hideResults = function(event) {
-          if (mousedownOn &&
-              (mousedownOn === scope.id + '_dropdown')) {
+          if (mousedownOn && (mousedownOn === scope.id + '_dropdown')) {
             mousedownOn = null;
-          }
-          else {
+          } else {
             hideTimer = $timeout(function() {
               clearResults();
               scope.$apply(function() {
@@ -666,10 +665,9 @@
               }
             }
             if(!scope.hasSelected){
-              scope.searchStr = null;
+              scope.searchStr = scope.lastValid;
             }
           }
-
         };
 
         scope.resetHideResults = function() {
@@ -695,6 +693,7 @@
           }
           else {
             scope.searchStr = result.title;
+            scope.lastValid = result.title;
           }
           callOrAssign(result);
           clearResults();
@@ -782,3 +781,4 @@
   }]);
 
 }));
+
