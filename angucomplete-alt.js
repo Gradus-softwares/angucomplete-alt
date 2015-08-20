@@ -167,6 +167,7 @@
 
         scope.$on('angucomplete-alt:changeInput', function (event, data) {
           if (data.id == scope.id) {
+            scope.lastValid = extractTitle(data.value);
             scope.searchStr = extractTitle(data.value);
             handleRequired(false);
             clearResults();
@@ -781,4 +782,5 @@
   }]);
 
 }));
+
 
