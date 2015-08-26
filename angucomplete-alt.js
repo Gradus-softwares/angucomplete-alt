@@ -186,14 +186,14 @@
             }
 
             function callOrAssign(value) {
-              if (typeof scope.selectedObject === 'function') {
-                scope.selectedObject(value);
-              }
-              else {
-                scope.selectedObject = value;
-              }
-
               if (value) {
+                if (typeof scope.selectedObject === 'function') {
+                  scope.selectedObject(value);
+                }
+                else {
+                  scope.selectedObject = value;
+                }
+                scope.lastValid = value.originalObject;
                 handleRequired(true);
               }
               else {
@@ -667,7 +667,6 @@
                 if(!scope.hasSelected){
                   if (scope.lastValid) {
                     scope.searchStr = extractTitle(scope.lastValid);
-                    callOrAssign({originalObject: scope.lastValid});
                   } else {
                     scope.searchStr = scope.initialValue;
                   }
@@ -698,7 +697,6 @@
               }
               else {
                 scope.searchStr = result.title;
-                scope.lastValid = result;
               }
               callOrAssign(result);
               clearResults();
