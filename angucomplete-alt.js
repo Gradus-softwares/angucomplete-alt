@@ -122,7 +122,7 @@
             var unbindInitialValue;
 
             // mostrar resultado da busca com a string do campo ao clickar
-            elem.on('mouseup', function(event) {
+            elem.on('click', function(event) {
               keyupHandler({which: KEY_TAB});
             });
             elem.on('mousedown', function(event) {
@@ -789,5 +789,6 @@
       }]);
 
 }));
+
 
 
