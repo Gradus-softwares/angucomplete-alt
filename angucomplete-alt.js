@@ -49,7 +49,7 @@
         // Set the default template for this directive
         $templateCache.put(TEMPLATE_URL,
             '<div class="angucomplete-holder" ng-class="{\'angucomplete-dropdown-visible\': showDropdown}">' +
-            '  <input id="{{id}}_value" name={{inputName}} ng-class="{\'angucomplete-input-not-empty\': notEmpty}" ng-model="searchStr" ng-disabled="disableInput" type="{{inputType}}" placeholder="{{placeholder}}" maxlength="{{maxlength}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event, true)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)"/>' +
+            '  <input id="{{id}}_value" name={{inputName}} ng-class="{\'angucomplete-input-not-empty\': notEmpty}" ng-model="searchStr" ng-disabled="disableInput" type="{{inputType}}" placeholder="{{placeholder}}" maxlength="{{maxlength}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)"/>' +
             '  <div id="{{id}}_dropdown" class="angucomplete-dropdown" ng-show="showDropdown">' +
             '    <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>' +
             '    <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)" ng-bind="textNoResults"></div>' +
@@ -140,6 +140,8 @@
 
             scope.currentIndex = null;
             scope.searching = false;
+
+
             unbindInitialValue = scope.$watch('initialValue', function(newval, oldval) {
 
               if (newval) {
@@ -271,10 +273,6 @@
             }
 
             function keyupHandler(event) {
-              if (scope.blured){
-                scope.blured = false;
-                return;
-              }
               var which = ie8EventNormalizer(event);
               if (which === KEY_LF || which === KEY_RT) {
                 // do nothing
@@ -650,18 +648,20 @@
               }
             };
 
-            scope.hideResults = function(event, blur) {
-              if (blur){
-                scope.blured = true;
+            scope.hideResults = function(event) {
+
+              if (isScrollOn && mousedownOn === '_dropdown'){
+                console.log('asgaga');
+
+                return;
               }
+              console.log('hiding');
 
               if (mousedownOn && (mousedownOn === scope.id + '_dropdown')) {
                 mousedownOn = null;
               } else {
                 hideTimer = $timeout(function() {
-                  if (!scope.blured){
-                    clearResults();
-                  }
+                  clearResults();
                   scope.$apply(function() {
                     if (scope.searchStr && scope.searchStr.length > 0) {
                       inputField.val(scope.searchStr);
@@ -799,6 +799,7 @@
       }]);
 
 }));
+
 
 
 
