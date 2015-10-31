@@ -651,11 +651,8 @@
             scope.hideResults = function(event) {
 
               if (isScrollOn && mousedownOn === '_dropdown'){
-                console.log('asgaga');
-
                 return;
               }
-              console.log('hiding');
 
               if (mousedownOn && (mousedownOn === scope.id + '_dropdown')) {
                 mousedownOn = null;
