@@ -23,7 +23,8 @@
 }(window, function (angular) {
 
   angular.module('angucomplete-alt', [] )
-      .directive('angucompleteAlt', ['$q', '$parse', '$http', '$sce', '$timeout', '$templateCache', function ($q, $parse, $http, $sce, $timeout, $templateCache) {
+      .directive('angucompleteAlt', ['$q', '$parse', '$http', '$sce', '$timeout', '$templateCache', '$rootScope',
+      function ($q, $parse, $http, $sce, $timeout, $templateCache, $rootScope) {
         // keyboard events
         var KEY_DW  = 40;
         var KEY_RT  = 39;
@@ -274,6 +275,11 @@
 
             function keyupHandler(event) {
               var which = ie8EventNormalizer(event);
+
+              if (scope.searchStr != undefined && scope.searchStr.length === 0){
+                $rootScope.$broadcast('emptySearchField');
+              }
+
               if (which === KEY_LF || which === KEY_RT) {
                 // do nothing
                 return;
@@ -281,16 +287,14 @@
 
               if (which === KEY_UP || which === KEY_EN) {
                 event.preventDefault();
-              }
-              else if (which === KEY_DW) {
+              } else if (which === KEY_DW) {
                 event.preventDefault();
                 if (!scope.showDropdown && scope.searchStr && scope.searchStr.length >= minlength) {
                   initResults();
                   scope.searching = true;
                   searchTimerComplete(scope.searchStr);
                 }
-              }
-              else if (which === KEY_ES) {
+              } else if (which === KEY_ES) {
                 clearResults();
                 scope.$apply(function() {
                   inputField.val(scope.searchStr);
@@ -796,6 +800,7 @@
       }]);
 
 }));
+
 
 
 
