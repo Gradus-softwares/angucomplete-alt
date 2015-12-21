@@ -277,6 +277,7 @@
               var which = ie8EventNormalizer(event);
 
               if (scope.searchStr != undefined && scope.searchStr.length === 0){
+                scope.hasSelected = true;
                 $rootScope.$broadcast('emptySearchField');
               }
 
