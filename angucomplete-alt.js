@@ -76,6 +76,7 @@
             disableInput: '=',
             initialValue: '=',
             localData: '=',
+            broadcastOnEmptySearch: '=',
             remoteUrlRequestFormatter: '=',
             remoteUrlRequestWithCredentials: '@',
             remoteUrlResponseFormatter: '=',
@@ -276,7 +277,7 @@
             function keyupHandler(event) {
               var which = ie8EventNormalizer(event);
 
-              if (scope.searchStr != undefined && scope.searchStr.length === 0){
+              if (scope.searchStr != undefined && scope.searchStr.length === 0 && scope.broadcastOnEmptySearch){
                 scope.hasSelected = true;
                 $rootScope.$broadcast('emptySearchField');
               }
