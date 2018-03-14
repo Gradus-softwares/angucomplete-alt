@@ -594,6 +594,8 @@
             }
 
             function processResults(responseData, str) {
+              responseData = _.sortBy(responseData, [function(obj) {return normalize(_.get(obj, scope.titleField).toLowerCase())}]);
+              
               var i, description, image, text, formattedText, formattedDesc;
 
 
