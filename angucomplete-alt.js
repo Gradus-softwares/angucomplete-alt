@@ -255,10 +255,11 @@
               // Escape user input to be treated as a literal string within a regular expression
               re = new RegExp(str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
               if (!target) { return; }
-              matches = target.match(re);
+              matches = normalize(target).match(re);
               if (matches) {
-                result = target.replace(re,
-                    '<span class="'+ scope.matchClass +'">'+ matches[0] +'</span>');
+                result = target.substring(0, matches.index);
+                result+= '<span class="'+ scope.matchClass +'">'+ target.substring(matches.index, matches.index + str.length) +'</span>';
+                result+= target.substring(matches.index + str.length);
               }
               else {
                 result = target;
@@ -530,6 +531,19 @@
               scope.results = [];
             }
 
+
+
+            var normalize = function(text) {
+              var translate = { 'à':'a', 'á':'a' , 'â':'a' , 'ã':'a', 'ä':'a', 'å':'a', 'æ':'a', 'ç':'c', 'è':'e', 'é':'e',
+                  'ê':'e', 'ë':'e', 'ì':'i', 'í':'i', 'î':'i', 'ï':'i', 'ð':'d', 'ñ':'n', 'ò' :'o', 'ó':'o', 'ô':'o', 'õ':'o', 'ö':'o',
+                  'ø':'o', 'ù':'u', 'ú':'u', 'û':'u', 'ü':'u', 'ý':'y', 'þ':'b', 'ß' :'s', 'ÿ':'y', 'ŕ':'r'
+                },
+                translateRe = /[àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþßÿ]/gim;
+              return ( text.replace( translateRe, function( match ){
+                return translate[ match ];
+              }) );
+            };
+
             function getLocalResults(str) {
               var i, match, s, value,
                   searchFields = scope.searchFields.split(','),
@@ -540,7 +554,7 @@
 
                 for (s = 0; s < searchFields.length; s++) {
                   value = extractValue(scope.localData[i], searchFields[s]) || '';
-                  match = match || (value.toLowerCase().indexOf(str.toLowerCase()) >= 0);
+                  match = match || (normalize(value.toLowerCase()).indexOf(normalize(str.toLowerCase())) >= 0);
                 }
 
                 if (match) {
