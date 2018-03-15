@@ -253,7 +253,7 @@
               var result, matches, re;
               // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
               // Escape user input to be treated as a literal string within a regular expression
-              re = new RegExp(str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+              re = new RegExp(normalize(str.toLowerCase()).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
               if (!target) { return; }
               matches = normalize(target.toLowerCase()).match(re);
               if (matches) {
