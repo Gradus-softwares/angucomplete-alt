@@ -598,7 +598,7 @@
                 scope.hoverRow(0)
               }
               responseData = _.sortBy(responseData, [function(obj) {return normalize(_.get(obj, scope.titleField).toLowerCase())}]);
-              
+
               var i, description, image, text, formattedText, formattedDesc;
 
 
@@ -815,6 +815,14 @@
             $timeout(function() {
               var css = getComputedStyle(dd);
               isScrollOn = css.maxHeight && css.overflowY === 'auto';
+
+              if (scope.localData && scope.localData.length == 1) {
+                scope.lastValid = _.get(_.first(scope.localData), scope.titleField);
+                scope.searchStr = _.get(_.first(scope.localData), scope.titleField);
+                handleRequired(false);
+                clearResults();
+              }
+
             });
           }
         };
