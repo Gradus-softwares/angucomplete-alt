@@ -799,6 +799,11 @@
             // set max length (default to maxlength deault from html
             scope.maxlength = attrs.maxlength ? attrs.maxlength : MAX_LENGTH;
 
+            // setDefaults
+            scope.overrideSuggestions = attrs.overrideSuggestions ? attrs.overrideSuggestions : true;
+            scope.minlength = attrs.minlength ? attrs.minlength : 0;
+            scope.autoMatch = attrs.autoMatch ? attrs.autoMatch : true;
+
             // register events
             inputField.on('keydown', keydownHandler);
             inputField.on('keyup', keyupHandler);
