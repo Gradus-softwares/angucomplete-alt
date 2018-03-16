@@ -23,7 +23,7 @@
 }(window, function (angular) {
 
   angular.module('angucomplete-alt', [] )
-      .directive('angucompleteAlt', ['$q', '$parse', '$http', '$sce', '$timeout', '$templateCache', '$rootScope',
+      .directive('angucompleteAlt', ['$q', '$parse', '$http', '$sce', '$timeout', '$templateCache', '$rootScope', '$filter',
       function ($q, $parse, $http, $sce, $timeout, $templateCache, $rootScope) {
         // keyboard events
         var KEY_DW  = 40;
@@ -36,15 +36,15 @@
         var KEY_DEL = 46;
         var KEY_TAB =  9;
 
-        var MIN_LENGTH = 3;
+        var MIN_LENGTH = 0;
         var MAX_LENGTH = 524288;  // the default max length per the html maxlength attribute
-        var PAUSE = 500;
+        var PAUSE = 200;
         var BLUR_TIMEOUT = 200;
 
         // string constants
         var REQUIRED_CLASS = 'autocomplete-required';
-        var TEXT_SEARCHING = 'Searching...';
-        var TEXT_NORESULTS = 'No results found';
+        var TEXT_SEARCHING = $filter('translate')('SEARCHING');
+        var TEXT_NORESULTS = $filter('translate')('NO_RESULT');
         var TEMPLATE_URL = '/angucomplete-alt/index.html';
 
         // Set the default template for this directive
@@ -801,8 +801,8 @@
 
             // setDefaults
             scope.overrideSuggestions = attrs.overrideSuggestions ? attrs.overrideSuggestions : true;
-            scope.minlength = attrs.minlength ? attrs.minlength : 0;
             scope.autoMatch = attrs.autoMatch ? attrs.autoMatch : true;
+            scope.matchClass = attrs.matchClass ? attrs.matchClass : "highlight-match";
 
             // register events
             inputField.on('keydown', keydownHandler);
