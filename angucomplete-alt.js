@@ -24,7 +24,7 @@
 
   angular.module('angucomplete-alt', [] )
       .directive('angucompleteAlt', ['$q', '$parse', '$http', '$sce', '$timeout', '$templateCache', '$rootScope', '$filter',
-      function ($q, $parse, $http, $sce, $timeout, $templateCache, $rootScope) {
+      function ($q, $parse, $http, $sce, $timeout, $templateCache, $rootScope, $filter) {
         // keyboard events
         var KEY_DW  = 40;
         var KEY_RT  = 39;
