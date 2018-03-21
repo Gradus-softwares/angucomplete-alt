@@ -801,7 +801,7 @@
 
             // setDefaults
             scope.overrideSuggestions = attrs.overrideSuggestions ? attrs.overrideSuggestions : true;
-            scope.autoMatch = attrs.autoMatch ? attrs.autoMatch : true;
+            scope.autoMatch = attrs.autoMatch ? attrs.autoMatch : false;
             scope.matchClass = attrs.matchClass ? attrs.matchClass : "highlight-match";
 
             // register events
