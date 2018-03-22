@@ -800,8 +800,6 @@
             scope.maxlength = attrs.maxlength ? attrs.maxlength : MAX_LENGTH;
 
             // setDefaults
-            scope.overrideSuggestions = attrs.overrideSuggestions ? attrs.overrideSuggestions : true;
-            scope.autoMatch = attrs.autoMatch ? attrs.autoMatch : false;
             scope.matchClass = attrs.matchClass ? attrs.matchClass : "highlight-match";
 
             // register events
