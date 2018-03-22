@@ -701,13 +701,18 @@
                     handleOverrideSuggestions();
                   }
                 }
+
+                if (scope.searchStr == '') {
+                  setInputString('')
+                  event.preventDefault();
+                }
+
                 if(!scope.hasSelected){
                   if (scope.lastValid) {
                     scope.searchStr = extractTitle(scope.lastValid);
-                  } else {
-                    scope.searchStr = scope.initialValue;
                   }
                 }
+                
               }
             };
 
