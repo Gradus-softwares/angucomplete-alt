@@ -594,9 +594,6 @@
             }
 
             function processResults(responseData, str) {
-              if(responseData.length == 1) {
-                scope.hoverRow(0)
-              }
               responseData = _.sortBy(responseData, [function(obj) {return normalize(_.get(obj, scope.titleField).toLowerCase())}]);
 
               var i, description, image, text, formattedText, formattedDesc;
@@ -679,6 +676,17 @@
                 return;
               }
 
+              if(scope.results.length == 0) {
+                var title = extractTitle(scope.lastValid);
+                if(title) {
+                  scope.searchStr = title
+
+                } else {
+                  scope.searchStr = '';
+                }
+                event.preventDefault();
+              }
+
               if (mousedownOn && (mousedownOn === scope.id + '_dropdown')) {
                 mousedownOn = null;
               } else {
@@ -702,8 +710,14 @@
                   }
                 }
 
-                if (scope.searchStr == '') {
-                  setInputString('')
+                if ((!scope.searchStr || scope.searchStr == '') && (scope.currentIndex && scope.currentIndex === -1)) {
+                  var obj =_.cloneDeep(scope.lastValid);
+                  if(obj && obj != '') {
+                    obj[scope.titleField] = '';
+                    setInputString(obj);
+                  } else {
+                    setInputString('')
+                  }
                   event.preventDefault();
                 }
 
@@ -712,7 +726,7 @@
                     scope.searchStr = extractTitle(scope.lastValid);
                   }
                 }
-                
+
               }
             };
 
