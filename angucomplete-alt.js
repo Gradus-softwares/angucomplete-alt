@@ -836,14 +836,19 @@
             $timeout(function() {
               var css = getComputedStyle(dd);
               isScrollOn = css.maxHeight && css.overflowY === 'auto';
-
-              if (scope.localData && scope.localData.length == 1) {
-                scope.lastValid = _.get(_.first(scope.localData), scope.titleField);
-                scope.searchStr = _.get(_.first(scope.localData), scope.titleField);
-                scope.selectResult({originalObject: _.first(scope.localData)});
-              }
-
             });
+
+            scope.$watch('localData', function(newval, oldval) {
+              if (newval) {
+                if (newval && newval.length == 1) {
+                  scope.lastValid = _.get(_.first(newval), scope.titleField);
+                  scope.searchStr = _.get(_.first(newval), scope.titleField);
+                  scope.selectResult({originalObject: _.first(newval)});
+                }
+              }
+            });
+
+
           }
         };
       }]);
