@@ -840,8 +840,7 @@
               if (scope.localData && scope.localData.length == 1) {
                 scope.lastValid = _.get(_.first(scope.localData), scope.titleField);
                 scope.searchStr = _.get(_.first(scope.localData), scope.titleField);
-                handleRequired(false);
-                clearResults();
+                scope.selectResult({originalObject: _.first(scope.localData)});
               }
 
             });
