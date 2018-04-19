@@ -50,7 +50,13 @@
         // Set the default template for this directive
         $templateCache.put(TEMPLATE_URL,
             '<div class="angucomplete-holder" ng-class="{\'angucomplete-dropdown-visible\': showDropdown}">' +
-            '  <input id="{{id}}_value" name={{inputName}} ng-class="{\'angucomplete-input-not-empty\': notEmpty}" ng-model="searchStr" ng-disabled="disableInput" type="{{inputType}}" placeholder="{{placeholder}}" maxlength="{{maxlength}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)"/>' +
+            '  <input id="{{id}}_value" name={{inputName}} ng-class="{\'angucomplete-input-not-empty\': notEmpty}" ng-model="searchStr" ng-disabled="disableInput" ' +
+            '         type="{{inputType}}" placeholder="{{placeholder}}" maxlength="{{maxlength}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ' +
+            '         ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)"/>' +
+            '  <a class="clear-button" ng-click="clearOrToggle($event)" ng-blur="hideResults($event)"> ' +
+            '    <i class="fa fa-times" ng-show="searchStr"></i>' +
+            '    <i class="fa fa-caret-down" ng-hide="searchStr"></i>' +
+            '  </a>' +
             '  <div id="{{id}}_dropdown" class="angucomplete-dropdown" ng-show="showDropdown">' +
             '    <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>' +
             '    <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)" ng-bind="textNoResults"></div>' +
@@ -164,13 +170,17 @@
               }
             });
 
-            scope.$on('angucomplete-alt:clearInput', function (event, elementId) {
+            function clearInput(elementId) {
               if (!elementId || elementId === scope.id) {
                 scope.searchStr = null;
                 callOrAssign();
                 handleRequired(false);
                 clearResults();
               }
+            }
+
+            scope.$on('angucomplete-alt:clearInput', function (event, elementId) {
+              clearInput(elementId);
             });
 
             scope.$on('angucomplete-alt:changeInput', function (event, data) {
@@ -277,7 +287,6 @@
 
             function keyupHandler(event) {
               var which = ie8EventNormalizer(event);
-
               if (scope.searchStr != undefined && scope.searchStr.length === 0 && scope.broadcastOnEmptySearch){
                 scope.hasSelected = true;
                 $rootScope.$broadcast('emptySearchField');
@@ -310,7 +319,7 @@
 
                 if (!scope.searchStr || scope.searchStr === '') {
                   scope.showDropdown = false;
-                } else if (scope.searchStr.length >= minlength) {
+                } else if (scope.searchStr.length >= minlength && which != KEY_TAB) {
                   initResults();
 
                   if (searchTimer) {
@@ -848,15 +857,19 @@
               }
             });
 
-
+            scope.clearOrToggle = function($event) {
+              if(scope.searchStr) {
+                clearInput();
+              } else {
+                if(scope.showDropdown) {
+                  clearInput();
+                } else {
+                  scope.onFocusHandler();
+                }
+              }
+            };
           }
         };
       }]);
 
 }));
-
-
-
-
-
-

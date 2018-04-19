@@ -65,3 +65,34 @@
     height: 34px;
     width: 34px;
 }
+
+.clear-button {
+  border: none;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  height: 26px;
+  width: 26px;
+  border-radius: 20%;
+  color: #7c7c7c;
+  cursor: pointer;
+  -webkit-transition: background 0.5s, color 0.5s;
+  transition: background 0.5s, color 0.5s;
+  background: #ffffff;
+}
+
+.clear-button:hover {
+  background: #7c7c7c;
+  color: #ffffff;
+}
+
+.clear-button i {
+  font-size: 20px;
+  position: absolute;
+  right: 5px;
+  top: 3px;
+}
+
+.clear-button i.fa-caret-down {
+  right: 8px;
+}
