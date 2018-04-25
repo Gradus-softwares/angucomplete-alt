@@ -53,7 +53,7 @@
             '  <input id="{{id}}_value" name={{inputName}} ng-class="{\'angucomplete-input-not-empty\': notEmpty}" ng-model="searchStr" ng-disabled="disableInput" ' +
             '         type="{{inputType}}" placeholder="{{placeholder}}" maxlength="{{maxlength}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ' +
             '         ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)"/>' +
-            '  <a class="clear-button" ng-click="clearOrToggle($event)" ng-blur="hideResults($event)"> ' +
+            '  <a class="clear-button" ng-click="clearOrToggle()" ng-hide="disableInput" ng-blur="hideResults($event)"> ' +
             '    <i class="fa fa-times" ng-show="searchStr"></i>' +
             '    <i class="fa fa-caret-down" ng-hide="searchStr"></i>' +
             '  </a>' +
@@ -857,9 +857,22 @@
               }
             });
 
-            scope.clearOrToggle = function($event) {
+            function fullClear() {
+              scope.searchStr = null;
+              clearResults();
+              if (typeof scope.selectedObject === 'function') {
+                scope.selectedObject({originalObject: {id: null}});
+              }
+              else {
+                scope.selectedObject = null;
+              }
+              scope.lastValid = {id: null};
+              handleRequired(false);
+            }
+
+            scope.clearOrToggle = function() {
               if(scope.searchStr) {
-                clearInput();
+                fullClear();
               } else {
                 if(scope.showDropdown) {
                   clearInput();
