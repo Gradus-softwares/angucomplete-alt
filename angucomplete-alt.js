@@ -681,7 +681,7 @@
                 if(title) {
                   scope.searchStr = title
 
-                } else {
+                } else if(!scope.overrideSuggestions){
                   scope.searchStr = '';
                 }
                 event.preventDefault();
@@ -722,7 +722,7 @@
                 }
                 else if(!scope.hasSelected){
                   if (scope.lastValid) {
-                    scope.searchStr = extractTitle(scope.lastValid);
+                    scope.searchStr = scope.overrideSuggestions ? scope.lastValid : extractTitle(scope.lastValid);
                   }
                 }
 
