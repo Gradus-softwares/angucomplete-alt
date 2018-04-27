@@ -40,6 +40,7 @@
         var MAX_LENGTH = 524288;  // the default max length per the html maxlength attribute
         var PAUSE = 200;
         var BLUR_TIMEOUT = 200;
+        var HIDE_ACTION_BUTTONS = false;
 
         // string constants
         var REQUIRED_CLASS = 'autocomplete-required';
@@ -53,7 +54,7 @@
             '  <input id="{{id}}_value" name={{inputName}} ng-class="{\'angucomplete-input-not-empty\': notEmpty}" ng-model="searchStr" ng-disabled="disableInput" ' +
             '         type="{{inputType}}" placeholder="{{placeholder}}" maxlength="{{maxlength}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ' +
             '         ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)"/>' +
-            '  <a class="clear-button" ng-click="clearOrToggle()" ng-hide="disableInput" ng-blur="hideResults($event)"> ' +
+            '  <a ng-if="!hideActionButtons" class="clear-button" ng-click="clearOrToggle()" ng-hide="disableInput" ng-blur="hideResults($event)"> ' +
             '    <i class="fa fa-times" ng-show="searchStr"></i>' +
             '    <i class="fa fa-caret-down" ng-hide="searchStr"></i>' +
             '  </a>' +
@@ -101,6 +102,7 @@
             searchFields: '@',
             minlength: '@',
             matchClass: '@',
+            hideActionButtons: '@',
             clearSelected: '@',
             overrideSuggestions: '@',
             fieldRequired: '@',
@@ -828,6 +830,7 @@
 
             // setDefaults
             scope.matchClass = attrs.matchClass ? attrs.matchClass : "highlight-match";
+            scope.hideActionButtons = attrs.hideActionButtons ? attrs.hideActionButtons : HIDE_ACTION_BUTTONS;
 
             // register events
             inputField.on('keydown', keydownHandler);
