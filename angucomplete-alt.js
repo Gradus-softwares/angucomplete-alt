@@ -733,7 +733,11 @@
                 }
                 else if(!scope.hasSelected){
                   if (scope.lastValid) {
-                    scope.searchStr = scope.overrideSuggestions ? scope.lastValid : extractTitle(scope.lastValid);
+                    if(scope.overrideSuggestions) {
+                      scope.searchStr = typeof scope.lastValid === 'string' ? scope.lastValid : '';
+                    } else {
+                      scope.searchStr = extractTitle(scope.lastValid);
+                    }
                   }
                 }
 
