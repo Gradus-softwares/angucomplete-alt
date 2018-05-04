@@ -41,6 +41,7 @@
         var PAUSE = 200;
         var BLUR_TIMEOUT = 200;
         var HIDE_ACTION_BUTTONS = false;
+        var DISABLE_DEFAULT_UNIQUE_DATA = false;
 
         // string constants
         var REQUIRED_CLASS = 'autocomplete-required';
@@ -103,6 +104,7 @@
             minlength: '@',
             matchClass: '@',
             hideActionButtons: '@',
+            disableDefaultUniqueData: '@',
             clearSelected: '@',
             overrideSuggestions: '@',
             fieldRequired: '@',
@@ -835,6 +837,7 @@
             // setDefaults
             scope.matchClass = attrs.matchClass ? attrs.matchClass : "highlight-match";
             scope.hideActionButtons = attrs.hideActionButtons ? attrs.hideActionButtons : HIDE_ACTION_BUTTONS;
+            scope.disableDefaultUniqueData = attrs.disableDefaultUniqueData ? attrs.disableDefaultUniqueData : DISABLE_DEFAULT_UNIQUE_DATA;
 
             // register events
             inputField.on('keydown', keydownHandler);
@@ -856,7 +859,7 @@
 
             scope.$watch('localData', function(newval, oldval) {
               if (newval) {
-                if (newval && newval.length == 1) {
+                if (newval && newval.length == 1 && !scope.disableDefaultUniqueData) {
                   scope.lastValid = _.get(_.first(newval), scope.titleField);
                   scope.searchStr = _.get(_.first(newval), scope.titleField);
                   scope.selectResult({originalObject: _.first(newval)});
